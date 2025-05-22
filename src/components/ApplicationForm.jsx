@@ -1,4 +1,3 @@
-// Frontend/pclconstru/src/components/ApplicationForm.jsx
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -29,19 +28,44 @@ const ApplicationForm = () => {
     setError('');
 
     try {
-      // use the full backend URL to avoid static-hosted /api collision
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/submit-application`,
-        formData
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          timeout: 10000
+        }
       );
+
       if (response.data.success) {
-        navigate('/success', { state: { application: response.data.data } });
+        navigate('/success', { 
+          state: { application: response.data.data },
+          replace: true
+        });
       } else {
-        throw new Error(response.data.error || 'Unknown error');
+        throw new Error(response.data.error || 'Server error');
       }
     } catch (err) {
-      setError(err.response?.data?.error || err.message || 'Submission failed');
-      console.error('Submission Error:', err);
+      let errorMessage = 'Submission failed';
+      if (err.response) {
+        // Server responded with error
+        errorMessage = err.response.data.error || `Server error: ${err.response.status}`;
+      } else if (err.request) {
+        // No response received
+        errorMessage = 'Network error - please check your internet connection';
+      } else {
+        // Request setup error
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
+      console.error('Submission Error Details:', {
+        error: err,
+        requestConfig: err.config,
+        response: err.response?.data
+      });
     } finally {
       setLoading(false);
     }
@@ -101,10 +125,26 @@ const ApplicationForm = () => {
         </select>
       </label>
 
-      {error && <div className="error-message">{error}</div>}
+      {error && (
+        <div className="error-message">
+          ⚠️ {error}
+          <p>Please check your connection and try again. If problem persists, contact support.</p>
+        </div>
+      )}
 
-      <button type="submit" disabled={loading} className="submit-btn">
-        {loading ? 'Submitting...' : 'Submit Application'}
+      <button 
+        type="submit" 
+        disabled={loading} 
+        className={`submit-btn ${loading ? 'loading' : ''}`}
+      >
+        {loading ? (
+          <>
+            <span className="spinner"></span>
+            Submitting...
+          </>
+        ) : (
+          'Submit Application'
+        )}
       </button>
     </form>
   );
