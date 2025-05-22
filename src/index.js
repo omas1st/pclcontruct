@@ -5,7 +5,7 @@ import axios from 'axios';
 import App from './App';
 import './styles/shared.css';
 
-// point axios at your Vercel‐deployed backend
+// configure axios to use your deployed backend
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

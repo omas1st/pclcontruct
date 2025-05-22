@@ -29,7 +29,11 @@ const ApplicationForm = () => {
     setError('');
 
     try {
-      const response = await axios.post('/api/submit-application', formData);
+      // use the full backend URL to avoid static-hosted /api collision
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/submit-application`,
+        formData
+      );
       if (response.data.success) {
         navigate('/success', { state: { application: response.data.data } });
       } else {
