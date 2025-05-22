@@ -8,15 +8,16 @@ const Layout = ({ children }) => (
       <Link to="/">
         <img src="/img/img1.png" alt="Company Logo" className="logo" />
       </Link>
-      <nav>
-        <Link to="/" className="home-btn">Home</Link>
-      </nav>
+      {/* Hiring banner with plain text */}
+      <div className="hiring-banner">
+        We are hiring! Apply now
+      </div>
     </header>
 
     <main>{children}</main>
 
     <footer>
-      &copy; 2025 PLC Constructors Inc. All rights reserved.
+      &copy; 2025 PCL Constructors Inc. All rights reserved.
     </footer>
   </div>
 );
