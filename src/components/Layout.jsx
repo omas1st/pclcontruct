@@ -5,13 +5,19 @@ import '../styles/shared.css';
 const Layout = ({ children }) => (
   <div className="layout">
     <header>
-      <Link to="/">
+      {/* Company logo linking to external site */}
+      <a 
+        href="https://www.pcl.com/us/en" 
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
         <img src="/img/img1.png" alt="Company Logo" className="logo" />
+      </a>
+
+      {/* Hiring banner with internal link */}
+      <Link to="/" className="hiring-banner">
+        We are hiring! <span className="apply-now">Apply now</span>
       </Link>
-      {/* Hiring banner with plain text */}
-      <div className="hiring-banner">
-        We are hiring! Apply now
-      </div>
     </header>
 
     <main>{children}</main>
