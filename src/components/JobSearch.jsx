@@ -27,7 +27,7 @@ const JobSearch = () => {
   ];
 
   const sectors = [
-    'All', 'Accountant', 'Canadian Buildings', 'Canadian Corporate',
+    'All', 'Administrative position', 'Canadian Buildings', 'Canadian Corporate',
     'Canadian Industrial', 'Financial Agent', 'Personal Assistant',
     'Remote Data Entry', 'Solar', 'US Buildings', 'US Civil',
     'US Corporate', 'US Industrial'
